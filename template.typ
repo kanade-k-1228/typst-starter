@@ -1,33 +1,93 @@
 #import "@preview/codelst:2.0.2": sourcecode
 
+// -----------------------------------
+
+#let note = (body, title: []) => [
+  #text(style: "oblique", size: 12pt)[#title]:
+  #body
+]
+
+
+// ノンブル
+#let nonble = (page: int) => {
+  if calc.odd(page) {
+    // 偶数ページは右側奥
+    place(left, dx: -14mm, dy: 5mm)[#text(6pt)[#page]]
+  } else {
+    // 奇数ページは左側奥
+    place(right, dx: 14mm, dy: 5mm)[#text(6pt)[#page]]
+  }
+}
+
+// ページ番号
+#let pageno = (page: int) => {
+  if page == 1 {
+    []
+  } else if calc.odd(page) {
+    // 偶数ページは左下
+    align(right)[#text(10pt)[#here().page()]]
+  } else {
+    // 奇数ページは右下
+    align(left)[#text(10pt)[#here().page()]]
+  }
+}
+
+// -----------------------------------
+
 #let doujinshi(
-  title: "かなでの技術書",
-  subtitle: "テンプレートだよ",
-  author: "Kanade",
-  twitter: "@kanade_k_1228",
-  note: [],
+  title: "",
+  subtitle: "",
+  author: "",
+  id: "",
+  date: datetime.today(),
   prologue: [],
   epilogue: [],
-  colophon: [],
+  okuduke: [],
   font: "Rounded Mplus 1c",
   paper: "a5",
   doc,
 ) = [
-  #set page(paper: paper)
-  #set text(font: font)
-  #set line(length: 100%)
+  #set page(paper: paper) // 紙サイズの設定
+  #set text(font: font) // フォントの設定
+  #set line(length: 100%) // 横線は幅100%
+  #set par(first-line-indent: 1em) // 段落頭の字下げ
+  // 各章最初の段落が字下げされないのは既知の問題です
+  // https://github.com/typst/typst/issues/311
+  // いずれ修正されることを信じてこのままにしています
+
+
+  // ページ番号
+  #set page(
+    header: context { nonble(page: here().page()) },
+    footer: context { pageno(page: here().page()) },
+  )
 
   //-----------------------------------
+  // 表紙
 
-  #title
-  #subtitle
-  [著] #author
-  #twitter
+  #align(center + horizon)[
+    #text(size: 20pt)[#title]
+    #v(4pt)
+    #text(size: 14pt)[#subtitle]
+    #v(80pt)
+    #text(size: 14pt)[[著] #author]
+    #v(1pt)
+    #text(size: 14pt)[#id]
+    #v(80pt)
+    #date.year() 年 #date.month() 月 #date.day() 日
+  ]
   #pagebreak()
 
   //-----------------------------------
+  // 免責
 
-  #note
+  #align(bottom)[
+    #text(size: 8pt)[
+      - 本書は #date.year() 年 #date.month() 時点での情報に基づいて執筆されたものです。
+      - 本書に記載された内容は情報の提供のみを目的としております。特定の使用目的に対して保証をするものではありません。
+      - 本書に記載されている会社名・製品名等は、一般に各社の商標または登録商標です。本文中では商標記号(®、™)の表記は省略しています。
+    ]
+  ]
   #pagebreak()
 
   //-----------------------------------
@@ -38,72 +98,15 @@
   #pagebreak()
 
   //-----------------------------------
+  // 凡例
 
-  #show outline.entry.where(level: 1): it => {
-    strong(it)
-  }
-  #outline(title: "目次", indent: auto)
+  #text(size: 16pt)[凡例]
+  #line()
 
-  //-----------------------------------
-  // 本文
-
-  #set page(header: [
-    #align(
-      left + bottom,
-      [
-        #text("章名未設定", size: 8pt)
-        #line(stroke: 0.5pt)
-      ],
-    )
-  ])
-
-  #counter(page).update(1)
-  #set page(numbering: "1")
-
-  // 章番号の設定
-  #set heading(
-    level: auto,
-    numbering: "1.1.",
-  )
-
-  #set par(first-line-indent: 1em)
-
-  #doc
-
-  #pagebreak()
-
-  //-----------------------------------
-
-  #set heading(numbering: none)
-
-  #text(size: 16pt, weight: "bold")[あとがき]
-  #epilogue
-
-  #text(size: 16pt, weight: "bold")[著者紹介]
-  #align(bottom)[
-    #text(size: 14pt)[#title] \
-    #text(size: 10pt)[#subtitle]
-    #line()
-    #colophon
-    #line()
-  ]
-]
-
-// 免責事項
-#let menseki = (time: "2024年12月") => [
-  #text(size: 8pt)[
-    - 本書は #time 時点での情報に基づいて執筆されたものです。
-    - 本書に記載された内容は情報の提供のみを目的としております。特定の使用目的に対して保証をするものではありません。
-    - 本書に記載されている会社名・製品名等は、一般に各社の商標または登録商標です。本文中では商標記号(®、™)の表記は省略しています。
-  ]
-]
-
-// 凡例
-#let hanrei = () => [
   プログラムコードは次のように表⽰します。
 
   #sourcecode[```
-    print("Hello, world!\n"); @<balloon>{コメント}
+    print("Hello, world!")
     ```]
 
   ターミナル画⾯は次のように表⽰します。
@@ -114,13 +117,76 @@
 
   本⽂に対する補⾜情報は次のように表⽰します。
 
-  //note[ノートタイトル]{
-  ノートは本⽂に対する補⾜情報です。
-  //}
+  #note(title: [ノート])[
+    ノートは本⽂に対する補⾜情報です。
+  ]
 
-]
+  #pagebreak()
 
-#let note = (body, title: []) => [
-  #text(style: "oblique", size: 12pt)[#title]:
-  #body
+  //-----------------------------------
+  // 目次
+
+  #show outline.entry.where(level: 1): it => {
+    strong(it)
+  }
+  #text(size: 16pt)[目次]
+  #line()
+  #outline(title: none, indent: auto)
+
+  //-----------------------------------
+  // 本文用設定
+
+  // 章番号の設定
+  #set heading(level: auto, numbering: "1.1.")
+
+  // 章タイトル
+  #show heading.where(level: 1): it => [
+    #pagebreak()
+    #v(8pt)
+    #text(size: 20pt)[第 #context counter(heading).get().at(0) 章]
+    #v(8pt)
+    #text(size: 20pt)[#it.body]
+    #v(8pt)
+  ]
+
+  // 節タイトル
+  #show heading.where(level: 2): it => [
+    #line()
+    #text(size: 15pt, weight: "bold")[
+      #context counter(heading).display() #it.body
+    ]
+    #line()
+  ]
+
+  // 項タイトル
+  #show heading.where(level: 3): it => [
+    #text(size: 15pt, weight: "bold")[
+      #context counter(heading).display() #it.body
+    ]
+  ]
+
+  //-----------------------------------
+  // 本文
+
+  #doc
+  #pagebreak()
+
+  //-----------------------------------
+  // あとがき
+
+  #text(size: 16pt, weight: "bold")[あとがき]
+  #line()
+  #epilogue
+
+  #pagebreak()
+
+  // 奥付
+  #align(bottom)[
+    #text(size: 14pt)[#title]
+    #v(1pt)
+    #text(size: 10pt)[#subtitle]
+    #line()
+    #okuduke
+    #line()
+  ]
 ]
