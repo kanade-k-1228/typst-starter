@@ -7,8 +7,8 @@
   author: "Kanade",
   id: "@kanade_k_1228",
   date: datetime(year: 2024, month: 12, day: 30),
-  prologue: include "prologe/main.typ",
-  epilogue: include "epiloge/main.typ",
+  prologue: include "prologe/prologe.typ",
+  epilogue: include "epiloge/epiloge.typ",
   okuduke: [
     2024年12月20日 初版第1刷発行
     #table(
@@ -21,7 +21,7 @@
   ],
 )
 
-#include "chap1/main.typ"
-#include "chap2/main.typ"
-#include "chap3/main.typ"
-#include "chap4/main.typ"
+#include "chap1/chap1.typ"
+#include "chap2/chap2.typ"
+#include "chap3/chap3.typ"
+#include "chap4/chap4.typ"
