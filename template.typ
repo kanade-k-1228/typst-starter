@@ -5,14 +5,16 @@
 // 文ブロック
 
 #let note = (body, title: []) => [
-  #block(
-    width: 100%,
-    inset: (top: 4pt, bottom: 4pt),
-    stroke: (top: 1pt, bottom: 1pt),
-  )[
-    #text(style: "oblique", size: 12pt)[#title]
-    #linebreak()
-    #body
+  #pad(left: 8pt, right: 8pt)[
+    #block(
+      width: 100%,
+      inset: (top: 4pt, bottom: 4pt),
+      stroke: (top: 1pt, bottom: 1pt),
+    )[
+      #text(style: "oblique", size: 12pt)[#title]
+      #linebreak()
+      #body
+    ]
   ]
 ]
 
@@ -26,6 +28,21 @@
     #text(style: "oblique", size: 12pt)[#title]
     #linebreak()
     #body
+  ]
+]
+
+#let cite = (body, title: []) => [
+  #pad(left: 8pt)[
+    #block(
+      width: 100%,
+      inset: (left: 8pt),
+      stroke: (left: 2pt),
+    )[
+      #text(style: "italic", size: 12pt)[#title]
+      #linebreak()
+      #body
+    ]
+
   ]
 ]
 
@@ -129,14 +146,15 @@
 
   プログラムコードは次のように表⽰します。
 
-  #sourcecode[```python
+  #sourcecode[```
     print("Hello, world!")
     ```]
 
   ターミナル画⾯は次のように表⽰します。
 
-  #sourcecode[```bash
+  #sourcecode[```
     $ echo Hello
+    Hello
     ```]
 
   本⽂に対する補⾜情報は次のように表⽰します。
@@ -147,6 +165,10 @@
 
   #callout(title: [コールアウト])[
     コールアウトは重要な情報を強調するためのものです。
+  ]
+
+  #cite(title: [引用文])[
+    引用文は他の⽂献からの引⽤です。
   ]
 
   #pagebreak()
@@ -170,25 +192,35 @@
   // 章タイトル
   #show heading.where(level: 1): it => [
     #pagebreak()
-    #v(8pt)
-    #text(size: 20pt)[第 #context counter(heading).get().at(0) 章]
-    #v(8pt)
-    #text(size: 20pt)[#it.body]
-    #v(8pt)
+    #v(20pt)
+    #block(
+      width: 100%,
+      inset: 24pt,
+      fill: luma(240),
+      radius: 4pt,
+    )[
+      #text(size: 20pt)[第 #context counter(heading).get().at(0) 章]
+      #v(4pt)
+      #text(size: 20pt)[#it.body]
+    ]
+    #v(20pt)
   ]
 
   // 節タイトル
   #show heading.where(level: 2): it => [
-    #line()
-    #text(size: 15pt, weight: "bold")[
-      #context counter(heading).display() #it.body
+    #block(
+      width: 100%,
+      inset: (top: 6pt, bottom: 8pt),
+      stroke: (top: 1pt, bottom: 1pt),
+    )[#text(size: 16pt, weight: "bold")[
+        #context counter(heading).display() #it.body
+      ]
     ]
-    #line()
   ]
 
   // 項タイトル
   #show heading.where(level: 3): it => [
-    #text(size: 15pt, weight: "bold")[
+    #text(size: 12pt, weight: "bold")[
       #context counter(heading).display() #it.body
     ]
   ]
