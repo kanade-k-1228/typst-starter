@@ -2,26 +2,50 @@
 
 // -----------------------------------
 
+// 文ブロック
+
 #let note = (body, title: []) => [
-  #text(style: "oblique", size: 12pt)[#title]:
-  #body
+  #block(
+    width: 100%,
+    inset: (top: 4pt, bottom: 4pt),
+    stroke: (top: 1pt, bottom: 1pt),
+  )[
+    #text(style: "oblique", size: 12pt)[#title]
+    #linebreak()
+    #body
+  ]
 ]
 
+#let callout = (body, title: []) => [
+  #block(
+    width: 100%,
+    fill: luma(240),
+    inset: 8pt,
+    radius: 4pt,
+  )[
+    #text(style: "oblique", size: 12pt)[#title]
+    #linebreak()
+    #body
+  ]
+]
+
+// -----------------------------------
 
 // ノンブル
 #let nonble = (page: int) => {
   if calc.odd(page) {
     // 偶数ページは右側奥
-    place(left, dx: -14mm, dy: 5mm)[#text(6pt)[#page]]
+    place(left, dx: -15mm, dy: 4mm)[#text(6pt)[#page]]
   } else {
     // 奇数ページは左側奥
-    place(right, dx: 14mm, dy: 5mm)[#text(6pt)[#page]]
+    place(right, dx: 15mm, dy: 4mm)[#text(6pt)[#page]]
   }
 }
 
 // ページ番号
 #let pageno = (page: int) => {
   if page == 1 {
+    // 表紙には表示しない
     []
   } else if calc.odd(page) {
     // 偶数ページは左下
@@ -55,11 +79,10 @@
   // https://github.com/typst/typst/issues/311
   // いずれ修正されることを信じてこのままにしています
 
-
   // ページ番号
   #set page(
-    header: context { nonble(page: here().page()) },
-    footer: context { pageno(page: here().page()) },
+    header: context nonble(page: here().page()),
+    footer: context pageno(page: here().page()),
   )
 
   //-----------------------------------
@@ -91,6 +114,7 @@
   #pagebreak()
 
   //-----------------------------------
+  // まえがき
 
   #text(size: 16pt, weight: "bold")[まえがき]
   #line()
@@ -105,13 +129,13 @@
 
   プログラムコードは次のように表⽰します。
 
-  #sourcecode[```
+  #sourcecode[```python
     print("Hello, world!")
     ```]
 
   ターミナル画⾯は次のように表⽰します。
 
-  #sourcecode[```
+  #sourcecode[```bash
     $ echo Hello
     ```]
 
@@ -119,6 +143,10 @@
 
   #note(title: [ノート])[
     ノートは本⽂に対する補⾜情報です。
+  ]
+
+  #callout(title: [コールアウト])[
+    コールアウトは重要な情報を強調するためのものです。
   ]
 
   #pagebreak()
