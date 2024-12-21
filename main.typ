@@ -2,7 +2,7 @@
 #import "@preview/codelst:2.0.2": sourcecode
 
 #show: doujinshi.with(
-  title: [Typst Starterで作る同人誌],
+  title: [typstで作る同人誌],
   subtitle: [簡単＆軽量なtypstで本を作ってみよう！],
   author: "Kanade",
   id: "@kanade_k_1228",
