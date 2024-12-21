@@ -63,3 +63,9 @@ Google font から `.ttf` ファイルをダウンロードしてください。
 #sourcecode[```bash
   $ typst watch main.typ
   ```]
+
+次のコマンドでpngエクスポートもできます。
+
+#sourcecode[```bash
+  $ typst compile main.typ png/main-{p}.png
+  ```]
