@@ -233,8 +233,12 @@
 
   // 項タイトル
   #show heading.where(level: 3): it => [
-    #text(size: 12pt, weight: "bold")[
-      #context counter(heading).display() #it.body
+    #block(
+      inset: (bottom: 2pt),
+      stroke: (bottom: 0.5pt),
+    )[#text(size: 12pt, weight: "bold")[
+        #context counter(heading).display() #it.body
+      ]
     ]
   ]
 

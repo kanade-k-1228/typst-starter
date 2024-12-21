@@ -4,11 +4,9 @@
 
 typsは環境構築がとても簡単です。
 
-== ローカル環境構築
+== リポジトリのクローン
 
-=== リポジトリのクローン
-
-このGitHubリポジトリをテンプレートとして、自分のリポジトリを作成してください。
+まずはこのGitHubリポジトリをテンプレートとして、自分のリポジトリを作成してください。
 
 #figure(
   image("./img/fork_as_template.png", width: 80%),
@@ -22,9 +20,9 @@ typsは環境構築がとても簡単です。
   $ cd <your-repository-name>
   ```]
 
-=== Cargoのインストール
+== cargo のインストール
 
-typstはRustで書かれているので、まずはRustのパッケージマネージャであるCargoをインストールします。
+　typstはRustで作られてるので、Rustのパッケージマネージャ「Cargo」を使ってインストールするのがおすすめです。
 
 公式ドキュメント #footnote[https://doc.rust-lang.org/cargo/getting-started/installation.html] のインストール手順に従ってください。
 
@@ -42,7 +40,7 @@ Cargoがインストールされたら、次にtypstをインストールしま�
   $ cargo install typst
   ```]
 
-=== フォントをインストール
+== フォントをインストール
 
 Google font から `.ttf` ファイルをダウンロードしてください。Windows の場合はシステムにフォントをインストール、Linux の場合はフォントファイルを `~/.fonts` 以下に配置してください。次のコマンドで使用可能なフォント一覧が見れます。
 
@@ -50,7 +48,7 @@ Google font から `.ttf` ファイルをダウンロードしてください。
   $ typst fonts
   ```]
 
-=== コンパイル
+== コンパイル
 
 次のコマンド一発でコンパイルできます。
 
