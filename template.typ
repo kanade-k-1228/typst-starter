@@ -4,45 +4,62 @@
 
 // 文ブロック
 
-#let note = (body, title: []) => [
+#let note = (body, title: none) => [
   #pad(left: 8pt, right: 8pt)[
     #block(
       width: 100%,
       inset: (top: 4pt, bottom: 4pt),
       stroke: (top: 1pt, bottom: 1pt),
-    )[
-      #text(style: "oblique", size: 12pt)[#title]
-      #linebreak()
-      #body
-    ]
+      {
+        if title != none {
+          text(
+            title + linebreak(),
+            style: "oblique",
+            size: 12pt,
+          )
+        }
+        body
+      },
+    )
   ]
 ]
 
-#let callout = (body, title: []) => [
+#let callout = (body, title: none) => [
   #block(
     width: 100%,
-    fill: luma(240),
     inset: 8pt,
+    fill: luma(240),
     radius: 4pt,
-  )[
-    #text(style: "oblique", size: 12pt)[#title]
-    #linebreak()
-    #body
-  ]
+    {
+      if title != none {
+        text(
+          title + linebreak(),
+          style: "oblique",
+          size: 12pt,
+        )
+      }
+      body
+    },
+  )
 ]
 
-#let cite = (body, title: []) => [
+#let cite = (body, title: none) => [
   #pad(left: 8pt)[
     #block(
       width: 100%,
       inset: (left: 8pt),
       stroke: (left: 2pt),
-    )[
-      #text(style: "italic", size: 12pt)[#title]
-      #linebreak()
-      #body
-    ]
-
+      {
+        if title != none {
+          text(
+            title + linebreak(),
+            style: "oblique",
+            size: 12pt,
+          )
+        }
+        body
+      },
+    )
   ]
 ]
 
@@ -144,20 +161,16 @@
   #text(size: 16pt)[凡例]
   #line()
 
-  プログラムコードは次のように表⽰します。
-
   #sourcecode[```
+    // プログラムコードはこのように表⽰します。
     print("Hello, world!")
     ```]
 
-  ターミナル画⾯は次のように表⽰します。
-
   #sourcecode[```
+    ターミナルはこのように表⽰します。
     $ echo Hello
     Hello
     ```]
-
-  本⽂に対する補⾜情報は次のように表⽰します。
 
   #note(title: [ノート])[
     ノートは本⽂に対する補⾜情報です。
