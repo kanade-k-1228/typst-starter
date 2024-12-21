@@ -1,3 +1,5 @@
+#import "@preview/codelst:2.0.2": sourcecode
+
 = typst の書き方
 
 == ディレクトリ構造
@@ -22,8 +24,33 @@
 
 == インポート
 
+#sourcecode()[```typ
+  #import "/template.typ": note, callout
+  ```]
+
 == 本文の書き方
+
+#sourcecode()[```typ
+  = 章
+  == 節
+  === 項
+  ```]
 
 == 画像の挿入
 
-== 特殊文
+#sourcecode()[```typ
+  #figure(
+    image("img/img.png", width: 50%),
+    caption: [画像の挿入],
+  )
+  ```]
+
+== 文ブロック
+
+typst starter で独自に定義した文ブロックです。
+
+#sourcecode()[```typ
+  #callout(title: コールアウトのタイトル)[
+    コールアウトは、重要な部分を強調するために使います。
+  ]
+  ```]

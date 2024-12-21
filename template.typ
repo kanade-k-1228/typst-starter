@@ -194,7 +194,7 @@
   }
   #text(size: 16pt)[目次]
   #line()
-  #outline(title: none, indent: auto)
+  #outline(title: none, indent: auto, depth: 2)
 
   //-----------------------------------
   // 本文用設定
